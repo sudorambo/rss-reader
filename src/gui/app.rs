@@ -224,10 +224,14 @@ impl eframe::App for App {
             if self.loading {
                 super::widgets::show_loading(ui);
             }
+            // Use full remaining rect so list/detail get full height (horizontal gives one row otherwise).
+            let rect = ui.available_rect_before_wrap();
+            let list_width = 280.0_f32.min(rect.width() * 0.35);
+            let detail_width = rect.width() - list_width;
+            let full_height = rect.height();
             ui.horizontal(|ui| {
-                let list_width = 280.0_f32.min(ui.available_width() * 0.35);
                 ui.allocate_ui_with_layout(
-                    egui::Vec2::new(list_width, ui.available_height()),
+                    egui::Vec2::new(list_width, full_height),
                     egui::Layout::top_down(egui::Align::Min),
                     |ui| {
                         egui::ScrollArea::vertical().show(ui, |ui| {
@@ -243,7 +247,7 @@ impl eframe::App for App {
                     },
                 );
                 ui.allocate_ui_with_layout(
-                    ui.available_size(),
+                    egui::Vec2::new(detail_width, full_height),
                     egui::Layout::top_down(egui::Align::Min),
                     |ui| {
                         article_detail::show(
