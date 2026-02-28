@@ -21,7 +21,10 @@ pub fn show(
         return;
     };
 
-    egui::ScrollArea::vertical().show(ui, |ui| {
+    let max_height = ui.available_height();
+    egui::ScrollArea::vertical()
+        .max_height(max_height)
+        .show(ui, |ui| {
         let date_str = item
             .published
             .as_ref()
