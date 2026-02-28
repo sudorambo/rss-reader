@@ -1,50 +1,71 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+==================
+Version change: (none) → 1.0.0
+Modified principles: N/A (initial fill from template)
+Added sections: None
+Removed sections: None
+Templates:
+  - .specify/templates/plan-template.md ✅ updated (Constitution Check now references constitution principles and gates)
+  - .specify/templates/spec-template.md ✅ (no constitution-specific constraints added)
+  - .specify/templates/tasks-template.md ✅ (task types align with principles)
+  - .cursor/commands/*.md ✅ (commands under .cursor/commands; no constitution references to update)
+Follow-up TODOs: None
+-->
+
+# RSS Reader Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Crate-First
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Features MUST be developed as self-contained Rust crates or library modules. Each crate MUST be independently testable, documented (including `#![doc]` and `cargo doc`), and have a clear purpose. Organizational-only crates are prohibited.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: Aligns with Rust’s crate ecosystem and BOK best practices: clear boundaries, reuse, and testability.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. CLI Interface
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Library functionality MUST be exposed via a CLI. Use a text in/out protocol: stdin and args as input; stdout for results; stderr for errors. Support both JSON and human-readable output where applicable.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: Enables scripting, debugging, and composition while keeping a consistent interface.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Test-First (NON-NEGOTIABLE)
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+TDD is mandatory. Order of work: tests written → reviewed/approved → tests fail → then implement. The Red–Green–Refactor cycle MUST be followed. Use `cargo test` as the standard test runner.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: Ensures behavior is specified and regression is caught; required by BOK and Rust community practice.
+
+### IV. Integration Testing
+
+Integration tests are REQUIRED for: new library/crate contract boundaries, contract or API changes, inter-service or inter-crate communication, and shared schemas. Place integration tests in `tests/` (cargo convention); contract tests MUST validate public APIs and data contracts.
+
+**Rationale**: Prevents integration regressions and keeps contracts explicit and stable.
+
+### V. Rust & BOK Best Practices
+
+- **Tooling**: Code MUST pass `cargo fmt` (rustfmt) and `cargo clippy` with no warnings in CI. New `unsafe` code MUST be justified in comments and reviewed.
+- **Versioning**: Follow Semantic Versioning (MAJOR.MINOR.PATCH) for public APIs; document breaking changes in changelogs.
+- **Observability**: Prefer structured, machine-parseable logging where applicable; use `tracing` or equivalent for consistency.
+- **Simplicity**: Prefer simple, readable code; avoid unnecessary abstraction (YAGNI). Complexity MUST be justified in design docs or PRs.
+
+**Rationale**: Keeps the codebase idiomatic, maintainable, and aligned with Rust and BOK standards.
+
+## Technology Stack & Constraints
+
+- **Language**: Rust. Toolchain and minimum supported Rust version (MSRV) MUST be documented (e.g. in `README` or `Cargo.toml`).
+- **Build & test**: Cargo only. Use `cargo build`, `cargo test`, `cargo clippy`, `cargo fmt`; CI MUST run these before merge.
+- **Dependencies**: Prefer stable, widely used crates; avoid unnecessary dependencies. New dependencies MUST be justified in PRs.
+- **Safety**: `unsafe` is allowed only when necessary and MUST be documented and reviewed.
+
+## Development Workflow
+
+- All changes MUST pass `cargo fmt --check` and `cargo clippy` (or equivalent lint gates) before merge.
+- Code review MUST verify compliance with this constitution (principles, stack, workflow).
+- Tests MUST be written first for new behavior; PRs that add behavior without tests MUST be rejected unless explicitly exempted (e.g. docs-only).
+- Use the project README and agent guidance files (e.g. `CLAUDE.md`) for day-to-day development and context.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution overrides conflicting local or ad-hoc practices. Amendments require: (1) a documented proposal, (2) review/approval, and (3) an update to this file with version and date. All PRs and reviews MUST confirm compliance with the principles and workflow above. Unjustified complexity or deviation MUST be challenged in review.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-02-27 | **Last Amended**: 2025-02-27
