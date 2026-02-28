@@ -224,34 +224,42 @@ impl eframe::App for App {
             if self.loading {
                 super::widgets::show_loading(ui);
             }
-            // Use full remaining rect so list/detail get full height and scroll correctly.
+            // Side-by-side: list (left) and detail (right), each with full height so scroll works.
             let rect = ui.available_rect_before_wrap();
             let list_width = 280.0_f32.min(rect.width() * 0.35);
+            let detail_width = rect.width() - list_width;
             let full_height = rect.height();
-            let list_rect =
-                egui::Rect::from_min_size(rect.min, egui::Vec2::new(list_width, full_height));
-            let detail_rect = egui::Rect::from_min_size(
-                egui::pos2(rect.min.x + list_width, rect.min.y),
-                egui::Vec2::new(rect.width() - list_width, full_height),
-            );
-            ui.allocate_new_ui(egui::UiBuilder::new().max_rect(list_rect), |ui| {
-                egui::ScrollArea::vertical().show(ui, |ui| {
-                    article_list::show(
-                        ui,
-                        &self.store,
-                        self.selected_feed.as_deref(),
-                        &mut self.selected_item_id,
-                        &mut self.focused_panel,
-                        FOCUS_ARTICLE_LIST,
-                    );
-                });
-            });
-            ui.allocate_new_ui(egui::UiBuilder::new().max_rect(detail_rect), |ui| {
-                article_detail::show(
-                    ui,
-                    &self.store,
-                    self.selected_item_id.as_deref(),
-                    self.selected_feed.as_deref(),
+            ui.horizontal(|ui| {
+                ui.set_min_height(full_height); // row height so both columns get full_height
+                ui.allocate_ui_with_layout(
+                    egui::Vec2::new(list_width, full_height),
+                    egui::Layout::top_down(egui::Align::Min),
+                    |ui| {
+                        egui::ScrollArea::vertical()
+                            .id_salt("article_list")
+                            .show(ui, |ui| {
+                                article_list::show(
+                                    ui,
+                                    &self.store,
+                                    self.selected_feed.as_deref(),
+                                    &mut self.selected_item_id,
+                                    &mut self.focused_panel,
+                                    FOCUS_ARTICLE_LIST,
+                                );
+                            });
+                    },
+                );
+                ui.allocate_ui_with_layout(
+                    egui::Vec2::new(detail_width, full_height),
+                    egui::Layout::top_down(egui::Align::Min),
+                    |ui| {
+                        article_detail::show(
+                            ui,
+                            &self.store,
+                            self.selected_item_id.as_deref(),
+                            self.selected_feed.as_deref(),
+                        );
+                    },
                 );
             });
         });

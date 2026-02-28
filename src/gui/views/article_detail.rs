@@ -25,6 +25,7 @@ pub fn show(
     let available_height = ui.available_height();
     ui.set_min_height(available_height);
     egui::ScrollArea::vertical()
+        .id_salt("article_detail") // distinct from article_list so scroll state is independent
         .auto_shrink([false, false]) // don't shrink; keep viewport full height so scrollbar appears
         .max_height(available_height)
         .show(ui, |ui| {
