@@ -21,9 +21,12 @@ pub fn show(
         return;
     };
 
-    let max_height = ui.available_height();
+    // Reserve full panel height so the scroll area viewport fills the space and scrolls when content is long.
+    let available_height = ui.available_height();
+    ui.set_min_height(available_height);
     egui::ScrollArea::vertical()
-        .max_height(max_height)
+        .auto_shrink([false, false]) // don't shrink; keep viewport full height so scrollbar appears
+        .max_height(available_height)
         .show(ui, |ui| {
         let date_str = item
             .published
