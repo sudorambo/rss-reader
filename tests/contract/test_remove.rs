@@ -3,6 +3,7 @@
 use assert_cmd::Command;
 use std::path::PathBuf;
 
+#[allow(deprecated)] // CI uses default build dir; cargo_bin_cmd! needs extra setup
 fn bin() -> Command {
     Command::cargo_bin("rss-reader").unwrap()
 }
