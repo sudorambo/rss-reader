@@ -1,0 +1,28 @@
+//! Contract test for CLI `list-feeds`: stdout lists feeds (title, url).
+
+use assert_cmd::Command;
+use std::path::PathBuf;
+
+fn bin() -> Command {
+    Command::cargo_bin("rss-reader").unwrap()
+}
+
+fn temp_config() -> (tempfile::TempDir, PathBuf) {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("data.json");
+    (dir, path)
+}
+
+#[test]
+fn list_feeds_with_no_feeds_produces_empty_stdout_and_success() {
+    let (_dir, path) = temp_config();
+    let output = bin()
+        .arg("--config")
+        .arg(&path)
+        .arg("list-feeds")
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    assert!(output.stderr.is_empty());
+    assert!(output.stdout.is_empty());
+}
