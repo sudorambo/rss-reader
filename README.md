@@ -103,4 +103,4 @@ The GUI uses the same default path; changes made in the GUI are visible in the C
 
 ## License
 
-MIT OR Apache-2.0
+Dual-licensed under **MIT** or **Apache-2.0**; you may use either. See `LICENSE-MIT` and `LICENSE-APACHE-2.0`.

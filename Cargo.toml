@@ -1,6 +1,6 @@
 [package]
 name = "rss-reader"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 rust-version = "1.70"
 description = "Full-featured RSS reader with CLI: add/remove feeds, pretty text formatting, multimedia support."
