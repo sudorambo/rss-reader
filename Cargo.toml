@@ -21,6 +21,8 @@ thiserror = "1.0"
 dirs = "5.0"
 html2text = "0.2"
 open = "5.0"
+eframe = "0.29"
+egui = "0.29"
 
 [dev-dependencies]
 tempfile = "3.10"
@@ -67,6 +69,10 @@ path = "tests/integration/test_format.rs"
 [[test]]
 name = "integration_media"
 path = "tests/integration/test_media.rs"
+
+[[test]]
+name = "integration_gui_shared_storage"
+path = "tests/integration/test_gui_shared_storage.rs"
 
 [profile.release]
 lto = true

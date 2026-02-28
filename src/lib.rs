@@ -8,6 +8,7 @@ pub mod error;
 pub mod feed;
 pub mod fetch;
 pub mod format;
+pub mod gui;
 pub mod media;
 pub mod store;
 

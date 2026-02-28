@@ -16,5 +16,6 @@ jobs:
           components: rustfmt, clippy
       - run: cargo fmt --check
       - run: cargo clippy -- -D warnings
+      - run: cargo build --bin rss-reader-gui
       - run: cargo test
       - run: cargo doc --no-deps

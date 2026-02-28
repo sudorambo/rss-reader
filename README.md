@@ -59,6 +59,20 @@ Override config/storage path:
 cargo run -- --config /path/to/data.json list-feeds
 ```
 
+## Run (GUI)
+
+Desktop GUI (same storage as CLI):
+
+```bash
+cargo run --bin rss-reader-gui
+```
+
+Build the GUI binary:
+
+```bash
+cargo build --bin rss-reader-gui
+```
+
 ## Test
 
 ```bash
@@ -83,7 +97,9 @@ cargo doc --no-deps
 Subscription list and cached items are stored at:
 
 - **Default**: `$XDG_CONFIG_HOME/rss-reader/data.json` (e.g. `~/.config/rss-reader/data.json` on Linux).
-- **Override**: `--config <path>` (e.g. `cargo run -- --config ./data.json list-feeds`).
+- **Override** (CLI): `--config <path>` (e.g. `cargo run -- --config ./data.json list-feeds`).
+
+The GUI uses the same default path; changes made in the GUI are visible in the CLI and vice versa.
 
 ## License
 
