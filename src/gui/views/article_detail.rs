@@ -28,45 +28,45 @@ pub fn show(
         .auto_shrink([false, false]) // don't shrink; keep viewport full height so scrollbar appears
         .max_height(available_height)
         .show(ui, |ui| {
-        let date_str = item
-            .published
-            .as_ref()
-            .map(|d| d.format("%Y-%m-%d %H:%M").to_string())
-            .unwrap_or_else(|| "?".to_string());
+            let date_str = item
+                .published
+                .as_ref()
+                .map(|d| d.format("%Y-%m-%d %H:%M").to_string())
+                .unwrap_or_else(|| "?".to_string());
 
-        ui.heading(&item.title);
-        ui.label(format!("Date:   {}", date_str));
-        ui.label(format!("Source: {}", item.feed_url));
-        if let Some(ref link) = item.link {
-            if !link.is_empty() {
-                ui.hyperlink_to("Link", link);
+            ui.heading(&item.title);
+            ui.label(format!("Date:   {}", date_str));
+            ui.label(format!("Source: {}", item.feed_url));
+            if let Some(ref link) = item.link {
+                if !link.is_empty() {
+                    ui.hyperlink_to("Link", link);
+                }
             }
-        }
-        ui.add_space(8.0);
-        ui.separator();
-        ui.add_space(8.0);
-
-        let body = format_article(item.content.as_deref(), 80);
-        ui.label(egui::RichText::new(body).monospace());
-
-        if !item.enclosures.is_empty() {
             ui.add_space(8.0);
             ui.separator();
-            ui.label("Media:");
-            for (idx, enc) in item.enclosures.iter().enumerate() {
-                ui.horizontal(|ui| {
-                    let mime = enc.media_type.as_deref().unwrap_or("?");
-                    ui.label(format!("[{}] {} ({})", idx, enc.url, mime));
-                    if ui.button("Open").clicked() {
-                        let _ = open_enclosure(enc);
-                    }
-                    if ui.button("Download").clicked() {
-                        if let Ok(path) = download_enclosure(enc, None) {
-                            ui.label(format!("Saved to {}", path.display()));
+            ui.add_space(8.0);
+
+            let body = format_article(item.content.as_deref(), 80);
+            ui.label(egui::RichText::new(body).monospace());
+
+            if !item.enclosures.is_empty() {
+                ui.add_space(8.0);
+                ui.separator();
+                ui.label("Media:");
+                for (idx, enc) in item.enclosures.iter().enumerate() {
+                    ui.horizontal(|ui| {
+                        let mime = enc.media_type.as_deref().unwrap_or("?");
+                        ui.label(format!("[{}] {} ({})", idx, enc.url, mime));
+                        if ui.button("Open").clicked() {
+                            let _ = open_enclosure(enc);
                         }
-                    }
-                });
+                        if ui.button("Download").clicked() {
+                            if let Ok(path) = download_enclosure(enc, None) {
+                                ui.label(format!("Saved to {}", path.display()));
+                            }
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
 }

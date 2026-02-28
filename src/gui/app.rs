@@ -228,7 +228,8 @@ impl eframe::App for App {
             let rect = ui.available_rect_before_wrap();
             let list_width = 280.0_f32.min(rect.width() * 0.35);
             let full_height = rect.height();
-            let list_rect = egui::Rect::from_min_size(rect.min, egui::Vec2::new(list_width, full_height));
+            let list_rect =
+                egui::Rect::from_min_size(rect.min, egui::Vec2::new(list_width, full_height));
             let detail_rect = egui::Rect::from_min_size(
                 egui::pos2(rect.min.x + list_width, rect.min.y),
                 egui::Vec2::new(rect.width() - list_width, full_height),
