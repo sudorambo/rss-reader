@@ -1,15 +1,15 @@
 <!--
 Sync Impact Report
 ==================
-Version change: (none) → 1.0.0
-Modified principles: N/A (initial fill from template)
-Added sections: None
+Version change: 1.0.0 → 1.1.0
+Modified principles: None
+Added sections: CI Workflow (required CI pipeline, gates, branch protection)
 Removed sections: None
 Templates:
-  - .specify/templates/plan-template.md ✅ updated (Constitution Check now references constitution principles and gates)
-  - .specify/templates/spec-template.md ✅ (no constitution-specific constraints added)
-  - .specify/templates/tasks-template.md ✅ (task types align with principles)
-  - .cursor/commands/*.md ✅ (commands under .cursor/commands; no constitution references to update)
+  - .specify/templates/plan-template.md ✅ updated (Constitution Check includes CI workflow)
+  - .specify/templates/spec-template.md ✅ (no change)
+  - .specify/templates/tasks-template.md ✅ (no change)
+  - .cursor/commands/*.md ✅ (no change)
 Follow-up TODOs: None
 -->
 
@@ -57,6 +57,16 @@ Integration tests are REQUIRED for: new library/crate contract boundaries, contr
 - **Dependencies**: Prefer stable, widely used crates; avoid unnecessary dependencies. New dependencies MUST be justified in PRs.
 - **Safety**: `unsafe` is allowed only when necessary and MUST be documented and reviewed.
 
+## CI Workflow
+
+A continuous integration (CI) pipeline is REQUIRED. The project MUST have a defined CI workflow (e.g. GitHub Actions, GitLab CI) that runs on every push and pull request.
+
+- **Required gates**: CI MUST run at least `cargo fmt --check`, `cargo clippy`, and `cargo test` before any change is merged. All gates MUST pass for merge.
+- **Branch protection**: The default branch (e.g. `main`) MUST require CI to pass before merge; direct pushes that bypass CI are prohibited for normal development.
+- **Visibility**: CI status MUST be visible from the repository (e.g. badges, status checks on PRs). Failures MUST be fixed or reverted; leaving the branch broken is not allowed.
+
+**Rationale**: Ensures every change is formatted, lint-clean, and tested; prevents regressions and keeps the main branch always buildable and testable.
+
 ## Development Workflow
 
 - All changes MUST pass `cargo fmt --check` and `cargo clippy` (or equivalent lint gates) before merge.
@@ -68,4 +78,4 @@ Integration tests are REQUIRED for: new library/crate contract boundaries, contr
 
 This constitution overrides conflicting local or ad-hoc practices. Amendments require: (1) a documented proposal, (2) review/approval, and (3) an update to this file with version and date. All PRs and reviews MUST confirm compliance with the principles and workflow above. Unjustified complexity or deviation MUST be challenged in review.
 
-**Version**: 1.0.0 | **Ratified**: 2025-02-27 | **Last Amended**: 2025-02-27
+**Version**: 1.1.0 | **Ratified**: 2025-02-27 | **Last Amended**: 2025-02-27

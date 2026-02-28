@@ -31,7 +31,7 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-Verify alignment with Core Principles, Technology Stack & Constraints, and Development Workflow in `.specify/memory/constitution.md`. Gates: Crate-First, CLI interface, Test-First, Integration Testing, Rust & BOK tooling (rustfmt, clippy), and workflow gates.
+Verify alignment with Core Principles, Technology Stack & Constraints, CI Workflow, and Development Workflow in `.specify/memory/constitution.md`. Gates: Crate-First, CLI interface, Test-First, Integration Testing, Rust & BOK tooling (rustfmt, clippy), CI pipeline (fmt, clippy, test), and workflow gates.
 
 ## Project Structure
 
